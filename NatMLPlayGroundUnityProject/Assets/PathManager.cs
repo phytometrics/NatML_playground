@@ -22,12 +22,15 @@ public class PathManager : MonoBehaviour
                 Instance = this;
             }
 
-            if (Application.platform == RuntimePlatform.IPhonePlayer || 
-            Application.platform == RuntimePlatform.OSXEditor || 
-            Application.platform == RuntimePlatform.OSXPlayer)
+            if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer)
             {     
                 // modelPath = Application.dataPath + "/" + MLModelParentFolder + "/" + MLModelFileNameCoreML;
                 modelPath = Path.Combine(Application.dataPath, "StreamingAssets", MLModelParentFolder, MLModelFileNameCoreML);
+                isModelFileReady = true;
+            }
+            else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                modelPath = Path.Combine(Application.dataPath, "Raw", MLModelParentFolder, MLModelFileNameCoreML);
                 isModelFileReady = true;
             }
             else if (Application.platform == RuntimePlatform.WebGLPlayer || 

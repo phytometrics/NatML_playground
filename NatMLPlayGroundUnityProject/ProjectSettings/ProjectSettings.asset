@@ -135,9 +135,8 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   bundleVersion: 1.0.2
   preloadedAssets:
-  - {fileID: -2193907350796354759, guid: ba787d4fba055487180174fcccbe0732, type: 2}
   - {fileID: 11400000, guid: 15d8ccb07b43446e1bd2f326a5ac9618, type: 2}
-  - {fileID: 11400000, guid: 389ffd83cfd584a99bd44496b1c6451b, type: 2}
+  - {fileID: 11400000, guid: 131b6eea230314c4ebe797c0f40af71e, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -537,9 +536,9 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: 
+  cameraUsageDescription: using camera
   locationUsageDescription: 
-  microphoneUsageDescription: 
+  microphoneUsageDescription: using microphone
   bluetoothUsageDescription: 
   macOSTargetOSVersion: 10.13.0
   switchNMETAOverride: 
