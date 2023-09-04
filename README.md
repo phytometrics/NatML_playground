@@ -8,7 +8,7 @@ NatML unity project(s) that runs your local model.
 
 
 
-- OSX (M1 Mac), MobileNetV3_Large_pytorch_float32.tflite 
+- OSX (M1 Mac), MobileNetV3_Large_pytorch.coreml 
 
   <img src="README.assets/image-20230904161500452.png" width=25%></img>
 
