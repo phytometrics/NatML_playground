@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
+
 using NatML;
 using NatML.Features;
 using NatML.Internal;
@@ -23,18 +24,9 @@ namespace NatML.Vision
         // private float[] imageFeatureStd = new float[] {0.229f, 0.224f, 0.225f, 0.0f};
         // also express as Unity Engine Vector4
         private Vector4 imageFeatureStd = new Vector4(0.229f, 0.224f, 0.225f, 0.0f);
-
         public static async Task<MLClassificationModelPredictor> Create()
         {
-            string labelFileName = "imageNetLabels";
-            string MLModelParentFolder = "MobileNetV3";
-            string MLModelFileNameCoreML = "mobilenetv3_large_pytorch.mlmodel";
-            string MLModelFileNameOnnx = "mobilenetv3_large_pytorch.onnx";
-            string MLModelFileNameTflite = "mobilenetv3_large_pytorch_float16.tflite";
-            string path;
-
-            
-
+            string labelFileName = "imageNetLabels";         
 
             // load imagenetlabels
             // Load the text file from the Resources folder
@@ -42,34 +34,14 @@ namespace NatML.Vision
             // Split the text file into an array of labels
             labels = labelData.text.Split('\n');
 
-            if (Application.platform == RuntimePlatform.IPhonePlayer || 
-                Application.platform == RuntimePlatform.OSXEditor || 
-                Application.platform == RuntimePlatform.OSXPlayer)
-            {     
-                path = Path.Combine(Application.dataPath, "StreamingAssets", MLModelParentFolder, MLModelFileNameCoreML);
-            }
-            else if (Application.platform == RuntimePlatform.WebGLPlayer || 
-                    Application.platform == RuntimePlatform.WindowsEditor || 
-                    Application.platform == RuntimePlatform.WindowsPlayer)
-            {
-                path = Path.Combine(Application.dataPath, "StreamingAssets", MLModelParentFolder, MLModelFileNameOnnx);
-            }
-            else if (Application.platform == RuntimePlatform.Android)
-            {
-                // Get the file path in the application's persistent data path
-                path = Path.Combine(Application.persistentDataPath, MLModelFileNameTflite);
-                if (!File.Exists(path))
-                {
-                    // Get the file path in the StreamingAssets folder
-                    string srcPath = Path.Combine(Application.streamingAssetsPath, MLModelParentFolder, MLModelFileNameTflite);
-                    await CopyFile(srcPath, path);
-                }
-            }
-            else
-            {
-                throw new Exception("Unsupported platform");
-            }
-            var model = await MLEdgeModel.Create(path);
+            await WaitForModelFileReady();
+
+            string modelPath = PathManager.Instance.modelPath;
+            // Debug.Log(modelPath);
+            // FileInfo fileInfo = new FileInfo(modelPath);
+            // long size = fileInfo.Length;
+            // Debug.Log(size);
+            var model = await MLEdgeModel.Create(modelPath);
             var predictor = new MLClassificationModelPredictor(model);
             return predictor;
         }
@@ -96,7 +68,6 @@ namespace NatML.Vision
             using var outputFeatures = model.Predict(inputFeature);
             var scores = new MLArrayFeature<float>(outputFeatures[0]).ToArray();
             var softmaxScores = Softmax(scores);
-            Debug.Log(softmaxScores);
             float maxValue = softmaxScores.Max();
             int maxIndex = Array.IndexOf(softmaxScores, maxValue);
             string labelname = labels[maxIndex];
@@ -120,30 +91,8 @@ namespace NatML.Vision
 
             // return labelname + ":" + maxValue.ToString();
         }
-        void IDisposable.Dispose(){ }
-        static async Task CopyFile(string srcPath, string dstPath)
-        {
-            using (UnityWebRequest www = UnityWebRequest.Get(srcPath))
-            {
-                www.SendWebRequest();
-
-                while (!www.isDone)
-                {
-                    await Task.Yield();
-                }
-
-                if (www.result == UnityWebRequest.Result.ConnectionError)
-                {
-                    Debug.LogError("Error while copying file: " + www.error);
-                }
-                else
-                {
-                    File.WriteAllBytes(dstPath, www.downloadHandler.data);
-                }
-            }
-        }        
-    
-        float[] Softmax(float[] input)
+        void IDisposable.Dispose(){ }    
+        private float[] Softmax(float[] input)
         {
             float max = input[0];
             for (int i = 1; i < input.Length; i++)
@@ -166,6 +115,12 @@ namespace NatML.Vision
 
             return output;
         }
-    }
-    
+        private static async Task WaitForModelFileReady()
+        {
+            while (!PathManager.Instance.isModelFileReady)
+            {
+                await Task.Delay(100);
+            }
+        }    
+    }     
 }

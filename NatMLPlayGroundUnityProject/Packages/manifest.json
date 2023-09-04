@@ -3,10 +3,14 @@
     {
       "name": "NatML",
       "url": "https://registry.npmjs.com",
-      "scopes": ["ai.natml"]
+      "scopes": [
+        "ai.natml"
+      ]
     }
   ],
   "dependencies": {
+    "ai.natml.natml": "1.1.15",
+    "com.unity.adaptiveperformance.samsung.android": "5.0.0",
     "com.unity.collab-proxy": "2.0.5",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.feature.mobile": "1.0.0",
@@ -48,7 +52,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "ai.natml.natml": "1.1.15"
+    "com.unity.modules.xr": "1.0.0"
   }
 }
