@@ -738,6 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiController: {fileID: 704036997}
+  rotate90Material: {fileID: 2100000, guid: 200416369ff264f67ae256ac19ffd137, type: 2}
 --- !u!1 &926918043
 GameObject:
   m_ObjectHideFlags: 0

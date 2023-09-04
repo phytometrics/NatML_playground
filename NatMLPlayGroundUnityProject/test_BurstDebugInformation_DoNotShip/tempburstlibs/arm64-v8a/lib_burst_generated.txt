@@ -37,7 +37,6 @@ Library: /Users/yosuke/gits/NatML_playground/NatMLPlayGroundUnityProject/Temp/Bu
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp/burst.link.xml
 --temp-folder=/Users/yosuke/gits/NatML_playground/NatMLPlayGroundUnityProject/Temp/Burst
---debug=Full
 --key-folder=/Applications/Unity/Hub/Editor/2022.3.7f1/PlaybackEngines/AndroidPlayer
 --decode-folder=/Users/yosuke/gits/NatML_playground/NatMLPlayGroundUnityProject/Library/Burst
 --output=/Users/yosuke/gits/NatML_playground/NatMLPlayGroundUnityProject/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
